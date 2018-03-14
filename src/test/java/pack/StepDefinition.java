@@ -126,7 +126,7 @@ public class StepDefinition {
 		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
 		crdt_name.sendKeys("MARIO");
 		JavascriptExecutor js = (JavascriptExecutor) drv;
-		 js.executeScript("alert('Waiting @AliAbdallah to finish Review step');");
+		js.executeScript("alert('Waiting @AliAbdallah to finish Review step');");
 		 
 		//credit_radiobtn.click();
 		//throw new PendingException();
