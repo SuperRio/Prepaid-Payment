@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;		
+
 
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
@@ -34,7 +37,8 @@ import cucumber.api.java.en.When;
 public class StepDefinition {
 
 	WebDriver drv = null;
-
+	
+	
 	@Before
 	public void setUp() {
 		Proxy proxy = new Proxy();
@@ -46,6 +50,8 @@ public class StepDefinition {
 		System.setProperty("webdriver.chrome.driver", driverPath
 				+ "chromedriver.exe");
 		drv = new ChromeDriver();
+		
+		
 	}
 
 	@Given("^that I am CallYa Guest user$")
@@ -56,20 +62,12 @@ public class StepDefinition {
 		// to go to SIT cookie switcher
 		//drv.get("https://eweb8.vfd2-testnet.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
 	
-		drv.manage().window().maximize();
-		Thread.sleep(1000);
-		drv.findElement(By.xpath("//input[@class='chosen-search-input']")).click();
-		Robot robot = new Robot();
-		Thread.sleep(1000);	
-		robot.keyPress(KeyEvent.VK_P);
-		robot.keyRelease(KeyEvent.VK_P);
-		robot.keyPress(KeyEvent.VK_A);
-		robot.keyRelease(KeyEvent.VK_A);
-		robot.keyPress(KeyEvent.VK_Y);
-		robot.keyRelease(KeyEvent.VK_Y);
-		robot.keyPress(KeyEvent.VK_ENTER);
-		robot.keyRelease(KeyEvent.VK_ENTER);
-		Thread.sleep(2000);
+		drv.manage().window().maximize();		
+		JavascriptExecutor js = (JavascriptExecutor) drv;
+		WebElement element = drv.findElement(By.xpath("//select[@style='display: none;']"));
+		js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
+		Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
+		ss.selectByValue("feature-set-payment-provider");
 		WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
 		development.click();		
 	}
@@ -100,8 +98,6 @@ public class StepDefinition {
 	@And("^Choose to continue as a guest$")
 	public void choose_to_continue_as_a_guest() throws Throwable {
 		// user click on continue as a guest button
-		// WebElement guest_btn = drv.findElement(By.id("guest-btn"));
-		// guest_btn.click();
 		drv.findElement(By.id("guestButtonId")).click();
 		//throw new PendingException();
 	}
@@ -110,38 +106,48 @@ public class StepDefinition {
 	public void enter_The_Personal_Data() throws Throwable {
 		// user enters receiver MSISDN and his E-mail
 		WebElement MSISDN_txtbox = drv.findElement(By.xpath("//input[@id='phoneField']"));
-		MSISDN_txtbox.sendKeys("0223456789");
+		MSISDN_txtbox.sendKeys("66666666");
 		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
 		Email_txtbox.sendKeys("mario.nady07@gmail.com");
 		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
 		btn_submit1.click();
-		//drv.findElement(By.xpath("//button[@type='submit']")).click();
 		//throw new PendingException();
 	}
 
 	@And("^Choose Payment Method credit card$")
 	public void choose_Payment_Method_credit_card() throws Throwable {
 		// user choose credit card payment method
-		WebElement credit_radiobtn = drv.findElement(By.id("credit-radio"));
-		credit_radiobtn.click();
-		wait();
-		WebElement creditno_txtbox = drv.findElement(By.id("credit-number"));
-		creditno_txtbox.sendKeys("1111111111111111");
-		WebElement expirydate_drpdown = drv.findElement(By.id("expiry-date"));
-		expirydate_drpdown.click(); // choose month and year from drop down list
-		WebElement CVC_txtbox = drv.findElement(By.id("CVC"));
-		CVC_txtbox.sendKeys("1234");
-		WebElement creditOwnerName_txtbox = drv
-				.findElement(By.id("owner-name"));
-		creditOwnerName_txtbox.sendKeys("Mario");
-		throw new PendingException();
+		Thread.sleep(2000);
+		drv.findElement(By.xpath("//label[@for='0']")).click();
+		WebElement crdt_no = drv.findElement(By.id("cardNumber"));
+		crdt_no.sendKeys("1234567812345678");
+		//Till @Osama update the id attribute, I will use this shitty robot code
+		drv.findElement(By.xpath("//ol-dropdown[@formcontrolname='month']")).click();
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_DOWN);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		drv.findElement(By.xpath("//ol-dropdown[@formcontrolname='year']")).click();
+		robot.keyPress(KeyEvent.VK_DOWN);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		WebElement crdt_CVC = drv.findElement(By.xpath("//input[@id='cvc']"));
+		crdt_CVC.sendKeys("1234");
+		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
+		crdt_name.sendKeys("MARIO");
+
+		
+		
+		//credit_radiobtn.click();
+		//wait();pay
+		
+		
+		//throw new PendingException();
 	}
 
 	@And("^complete Review step$")
 	public void complete_Review_step() throws Throwable {
 		// user review data and click on submit
-		WebElement checkout_btn = drv.findElement(By.id("checkout"));
-		checkout_btn.click();
+		//WebElement checkout_btn = drv.findElement(By.id("checkout"));
+		//checkout_btn.click();
 		throw new PendingException();
 	}
 
