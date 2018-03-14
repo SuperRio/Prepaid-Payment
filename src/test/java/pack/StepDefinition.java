@@ -38,7 +38,6 @@ public class StepDefinition {
 
 	WebDriver drv = null;
 	
-	
 	@Before
 	public void setUp() {
 		Proxy proxy = new Proxy();
@@ -49,16 +48,13 @@ public class StepDefinition {
 		String driverPath = "C:\\drive\\";
 		System.setProperty("webdriver.chrome.driver", driverPath
 				+ "chromedriver.exe");
-		drv = new ChromeDriver();
-		
-		
+		drv = new ChromeDriver();	
 	}
 
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		// to go to the ST cookie switcher
 		drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
-		
 		// to go to SIT cookie switcher
 		//drv.get("https://eweb8.vfd2-testnet.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
 	
@@ -86,11 +82,6 @@ public class StepDefinition {
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
 		mydiv.click();		
-		//WebElement card2 = drv.findElement(By.id("card-2"));
-		//WebElement card3 = drv.findElement(By.id("card-3"));
-		//WebElement card4 = drv.findElement(By.id("card-4"));
-		//WebElement card1_addition = drv.findElement(By.id("card+"));
-		//WebElement card1_subtraction = drv.findElement(By.id("card-"));
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		//throw new PendingException();
 	}
@@ -117,8 +108,9 @@ public class StepDefinition {
 	@And("^Choose Payment Method credit card$")
 	public void choose_Payment_Method_credit_card() throws Throwable {
 		// user choose credit card payment method
-		Thread.sleep(2000);
-		drv.findElement(By.xpath("//label[@for='0']")).click();
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='0']")));
+		mydiv.click();
 		WebElement crdt_no = drv.findElement(By.id("cardNumber"));
 		crdt_no.sendKeys("1234567812345678");
 		//Till @Osama update the id attribute, I will use this shitty robot code
@@ -133,13 +125,10 @@ public class StepDefinition {
 		crdt_CVC.sendKeys("1234");
 		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
 		crdt_name.sendKeys("MARIO");
-
-		
-		
+		JavascriptExecutor js = (JavascriptExecutor) drv;
+		 js.executeScript("alert('Waiting @AliAbdallah to finish Review step');");
+		 
 		//credit_radiobtn.click();
-		//wait();pay
-		
-		
 		//throw new PendingException();
 	}
 
