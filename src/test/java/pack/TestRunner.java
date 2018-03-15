@@ -7,7 +7,7 @@ import cucumber.api.junit.Cucumber;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = ("D:\\Work\\pre paid payment\\Prepaid-Payment\\src\\test\\resources\\features\\payment.feature")
+@CucumberOptions(features = ("D:\\Work\\pre paid payment\\Prepaid-Payment\\src\\test\\resources\\features\\"), tags="@guest_small, @guest_large"
 ,format = {"json:target/cucumber.json","html:target/site/cucumber-pretty"},
 glue = "pack")
 

@@ -1,11 +1,15 @@
 package pack;
 
+import net.masterthought.cucumber.json.Element;
+
+import org.apache.velocity.runtime.directive.Break;
 import org.openqa.selenium.Proxy;
 
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -24,6 +28,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;		
+
+
+
+
+
 
 
 import cucumber.api.PendingException;
@@ -85,6 +94,35 @@ public class StepDefinition {
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		//throw new PendingException();
 	}
+	
+	
+	@Then("^Choose Large amount to Top-up$")
+	public void choose_Large_amount_to_Top_up() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement dim = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
+		for(int i=0; i<100; i++)
+		{
+			//WebElement dim = drv.findElement(By.xpath("//div[@id='topup0']"));
+			dim.click();
+			String clas = dim.getAttribute("class");
+			System.out.println(clas);
+			if(clas.equals("card dimmed"))
+				{
+				System.out.println("Max Reached");
+				break;
+				}
+		}
+		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
+		//throw new PendingException();
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	@And("^Choose to continue as a guest$")
 	public void choose_to_continue_as_a_guest() throws Throwable {
@@ -113,14 +151,10 @@ public class StepDefinition {
 		mydiv.click();
 		WebElement crdt_no = drv.findElement(By.id("cardNumber"));
 		crdt_no.sendKeys("1234567812345678");
-		//Till @Osama update the id attribute, I will use this shitty robot code
-		drv.findElement(By.xpath("//ol-dropdown[@formcontrolname='month']")).click();
-		Robot robot = new Robot();
-		robot.keyPress(KeyEvent.VK_DOWN);
-		robot.keyPress(KeyEvent.VK_ENTER);
-		drv.findElement(By.xpath("//ol-dropdown[@formcontrolname='year']")).click();
-		robot.keyPress(KeyEvent.VK_DOWN);
-		robot.keyPress(KeyEvent.VK_ENTER);
+		Select ss = new Select(drv.findElement(By.xpath("//select[@id='month-chooser']")));
+		ss.selectByValue("4");
+		Select sss = new Select(drv.findElement(By.xpath("//select[@id='years-chooser']")));
+		sss.selectByValue("2024");
 		WebElement crdt_CVC = drv.findElement(By.xpath("//input[@id='cvc']"));
 		crdt_CVC.sendKeys("1234");
 		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
