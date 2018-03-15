@@ -5,11 +5,12 @@
   <version>0.0.1-SNAPSHOT</version>
   
   <dependencies>
+
   <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-java</artifactId>
-    <version>3.4.0</version>
+    <version>3.6.0</version>
 </dependency>
 	<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 <dependency>
@@ -106,9 +107,24 @@
     <artifactId>cucumber-reporting</artifactId>
     <version>3.14.0</version>
 </dependency>
-
-
-  </dependencies>
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-email</artifactId>
+    <version>1.4</version>
+</dependency>
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+            <dependency>
+  <groupId>javax.mail</groupId>
+  <artifactId>mail</artifactId>
+  <version>1.4.5</version>
+</dependency>
+        </dependencies>
+        
 
 <build>
         <plugins>
