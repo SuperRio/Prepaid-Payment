@@ -103,10 +103,8 @@ public class StepDefinition {
 		WebElement dim = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
 		for(int i=0; i<100; i++)
 		{
-			//WebElement dim = drv.findElement(By.xpath("//div[@id='topup0']"));
 			dim.click();
 			String clas = dim.getAttribute("class");
-			System.out.println(clas);
 			if(clas.equals("card dimmed"))
 				{
 				System.out.println("Max Reached");
@@ -116,13 +114,6 @@ public class StepDefinition {
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		//throw new PendingException();
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	@And("^Choose to continue as a guest$")
 	public void choose_to_continue_as_a_guest() throws Throwable {
