@@ -29,12 +29,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;		
 
-
-
-
-
-
-
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -59,7 +53,9 @@ public class StepDefinition {
 				+ "chromedriver.exe");
 		drv = new ChromeDriver();	
 	}
-
+	
+	
+	
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		// to go to the ST cookie switcher
@@ -69,7 +65,7 @@ public class StepDefinition {
 	
 		drv.manage().window().maximize();		
 		JavascriptExecutor js = (JavascriptExecutor) drv;
-		WebElement element = drv.findElement(By.xpath("//select[@style='display: none;']"));
+		WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
 		js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
 		Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
 		ss.selectByValue("feature-set-payment-provider");
@@ -92,6 +88,7 @@ public class StepDefinition {
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
 		mydiv.click();		
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
+		System.out.println("Test Case 1 Passed");
 		//throw new PendingException();
 	}
 	
@@ -112,6 +109,7 @@ public class StepDefinition {
 				}
 		}
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
+		System.out.println("Test Case 2 Passed");
 		//throw new PendingException();
 	}
 
@@ -170,5 +168,102 @@ public class StepDefinition {
 		// Write code here that turns the phrase above into concrete actions
 		throw new PendingException();
 	}
+
+
+
+	@Then("^Choose VARIOUS amount to Top-up$")
+	public void chooseVARIOUSAmountToTopUp() throws Throwable {
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
+		WebElement card1 = drv.findElement(By.xpath("//div[@id='topup1']"));
+		WebElement card2 = drv.findElement(By.xpath("//div[@id='topup2']"));
+		WebElement card3 = drv.findElement(By.xpath("//div[@id='topup3']"));
+		//WebElement total = drv.findElement(By.xpath("//div[@class='total-price']/following::div[@class='value']"));
+		for(int i=0; i<100; i++)
+		{
+			card0.click();
+			card1.click();
+			card2.click();
+			card3.click();
+			//String total1 = total.getText();
+			//System.out.println(total1);
+			String clas = card3.getAttribute("class");
+			if(clas.equals("card dimmed"))
+				{
+				System.out.println(clas);
+				System.out.println("Max Reached");
+				break;
+				}
+		}
+		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
+		System.out.println("Test Case 3 Passed");
+		//throw new PendingException();
+	}
+	
+
+	@Then("^addAndRemove amounts to Top-up$")
+	public void addandremoveAmountsToTopUp() throws Throwable {
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
+		WebElement card1 = drv.findElement(By.xpath("//div[@id='topup1']"));
+		WebElement card2 = drv.findElement(By.xpath("//div[@id='topup2']"));
+		WebElement card3 = drv.findElement(By.xpath("//div[@id='topup3']"));
+		WebElement decrement0 = drv.findElement(By.xpath("//a[@id='decrement0']"));
+		WebElement decrement1 = drv.findElement(By.xpath("//a[@id='decrement1']"));
+		WebElement decrement2 = drv.findElement(By.xpath("//a[@id='decrement2']"));
+		WebElement decrement3 = drv.findElement(By.xpath("//a[@id='decrement3']"));
+			card0.click();
+			card1.click();
+			card2.click();
+			card3.click();
+			decrement0.click();
+			decrement1.click();
+			decrement2.click();
+			decrement3.click();
+			card3.click();
+			card2.click();
+			card1.click();
+			card0.click();
+			drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
+			System.out.println("Test Case 4 Passed");
+	//	throw new PendingException();
+	}
+
+
+
+	@And("^Enter The Personal Data to disable PayPal$")
+	public void enterThePersonalDataToDisablePayPal() throws Throwable {
+		
+		WebElement MSISDN_txtbox = drv.findElement(By.xpath("//input[@id='phoneField']"));
+		MSISDN_txtbox.sendKeys("11111111");
+		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
+		Email_txtbox.sendKeys("mario.nady07@gmail.com");
+		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
+		btn_submit1.click();
+		//throw new PendingException();
+	}
+
+
+
+	@And("^Check Paypal when being Disable$")
+	public void checkPaypalWhenBeingDisable() throws Throwable {
+		
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement Paypal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='fm-data disabled']")));
+		String xy = Paypal.getAttribute("class");
+		if(xy.contains("disabled"))
+		{
+			System.out.println("Test Case 5 Passed Plus Paypal radio button is highlighted as it's disabled");
+		}
+		if (drv instanceof JavascriptExecutor) {
+	        ((JavascriptExecutor)drv).executeScript("arguments[0].style.border='3px solid red'", Paypal);
+	    }
+	    return;
+		
+		
+		
+		//throw new PendingException();
+	}
+
 
 }
