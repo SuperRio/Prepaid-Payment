@@ -12,6 +12,8 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -265,5 +267,74 @@ public class StepDefinition {
 		//throw new PendingException();
 	}
 
+	@And("^login with user has from (\\d+) to (\\d+) MSISDNs$")
+	public void login_with_user_has_from_to_MSISDNs(int arg1, int arg2) throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		
+		WebElement lgnbtn = drv.findElement(By.id("LoginButtonId"));
+		lgnbtn.click();
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement usernameBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtUsername']")));
+		WebElement passwordBtn = drv.findElement(By.xpath("//input[@id='txtPassword']"));
+		usernameBtn.sendKeys("PD.paul-8-with-default-out");
+		passwordBtn.sendKeys("PD.paul-8-with-default-out");
+		WebElement loginbtn = drv.findElement(By.xpath("//button[@class='btn login-btn']"));
+		loginbtn.click();
+	    //throw new PendingException();
+	}
+	
+	@Then("^Check user's MSISDNs$")
+	public void check_user_s_MSISDNs() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement radio_0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='subscriptions0']")));
+		radio_0.click();
+		
+		
+		//throw new PendingException();
+	}
+	@Then("^Check user's MSISDNs for different error messages$")
+	public void check_user_s_MSISDNs_for_different_error_messages() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement btnCloseMsisdn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@type='button']")));
+		btnCloseMsisdn.click();
+		JavascriptExecutor jse = (JavascriptExecutor)drv;
+		jse.executeScript("window.scrollBy(0,-250)", "");
+		WebElement radio0 = drv.findElement(By.xpath("//label[@for='subscriptions0']"));
+		radio0.click();
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+		//jse.executeScript("window.scrollBy(0,250)", "");
+		//WebElement btnsubmit = drv.findElement(By.xpath("//button[@type='submit']"));
+		//btnsubmit.click();
+		Thread.sleep(1000);
+		String expectedMessage = "Ihr Auflade-Betrag ist höher als der Betrag, den Sie monatlich online auf diese Rufnummer aufladen können. Geben Sie einen kleineren Betrag an oder laden Sie anders auf, z. B. mit Guthabenkarte oder im Vodafone-Shop.";
+		String txt = drv.findElement(By.xpath("//div[@class='alert-content no-head']")).getText();
+		Assert.assertTrue("Your error message", txt.contains(expectedMessage));
+
+		WebElement radio1 = drv.findElement(By.xpath("//label[@for='subscriptions1']"));
+		radio1.click();
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(1000);
+		String expectedMessage1 = "Diese CallYa-Rufnummer ist leider gesperrt.";
+		String txt1 = drv.findElement(By.xpath("//div[@class='alert-content no-head']")).getText();
+		Assert.assertTrue("Your error message", txt1.contains(expectedMessage1));
+		
+		WebElement radio2 = drv.findElement(By.xpath("//label[@for='subscriptions2']"));
+		radio2.click();
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
+		Thread.sleep(1000);
+		String expectedMessage11 = "Eine Aufladung dieser Rufnummer ist aktuell noch in Arbeit. Warten Sie bitte, bis der Vorgang abgeschlossen ist, oder laden Sie eine andere Rufnummer auf.";
+		String txt2 = drv.findElement(By.xpath("//div[@class='alert-content no-head']")).getText();
+		Assert.assertTrue("Your error message", txt2.contains(expectedMessage11));
+		
+		
+	    //throw new PendingException();
+		
+	}
 
 }
