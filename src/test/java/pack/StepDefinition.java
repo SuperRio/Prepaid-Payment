@@ -15,6 +15,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Options;
@@ -45,15 +46,18 @@ public class StepDefinition {
 	
 	@Before
 	public void setUp() {
-		Proxy proxy = new Proxy();
+		/*Proxy proxy = new Proxy();
 		proxy.setHttpProxy("139.7.95.172:8080");
 		ChromeOptions options = new ChromeOptions();
 		DesiredCapabilities dc = new DesiredCapabilities();
-		options.setCapability("proxy", proxy);
+		options.setCapability("proxy", proxy);*/
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-application-cache");
 		String driverPath = "C:\\drive\\";
 		System.setProperty("webdriver.chrome.driver", driverPath
 				+ "chromedriver.exe");
 		drv = new ChromeDriver();	
+		//drv = webdriver.Chrome(chrome_options=chrome_options);
 	}
 	
 	
@@ -61,25 +65,34 @@ public class StepDefinition {
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		// to go to the ST cookie switcher
-		drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		//drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
 		// to go to SIT cookie switcher
-		//drv.get("https://eweb8.vfd2-testnet.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		//========================================================================
+		drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
+		drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
+		//========================================================================
+//		drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
 	
 		drv.manage().window().maximize();		
-		JavascriptExecutor js = (JavascriptExecutor) drv;
-		WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
-		js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
-		Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
-		ss.selectByValue("feature-set-payment-provider");
-		WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
-		development.click();		
+//		JavascriptExecutor js = (JavascriptExecutor) drv;
+//		WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
+//		js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
+//		Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
+//		ss.selectByValue("feature-set-payment-provider");
+		//WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
+		//development.click();		
 	}
 
 	@When("^I choose to top-up my/other person balance online$")
 	public void i_choose_to_top_up_my_other_person_balance_online_vodafone_de()
 			throws Throwable {
-		// to go to topamount page
-		drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
+		// to go to topamount page in ST
+		// drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
+		
+		// to go to topamount page in SIT
+		
+		drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
+		
 		//throw new PendingException();
 	}
 
@@ -87,7 +100,7 @@ public class StepDefinition {
 	public void choose_Top_up_Amount() throws Throwable {
 		// locate all elements on top-up page and choose amount
 		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
+		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
 		mydiv.click();		
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		System.out.println("Test Case 1 Passed");
@@ -160,9 +173,13 @@ public class StepDefinition {
 	@And("^complete Review step$")
 	public void complete_Review_step() throws Throwable {
 		// user review data and click on submit
-		//WebElement checkout_btn = drv.findElement(By.id("checkout"));
-		//checkout_btn.click();
-		throw new PendingException();
+		Thread.sleep(2000);
+		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
+		checkout_btn.click();
+		Thread.sleep(2000);
+		WebElement checkout_btn1 = drv.findElement(By.xpath("//button[@class='btn btn-sml']"));
+		checkout_btn1.click();
+		// throw new PendingException();
 	}
 
 	@Then("^I shall view  Confirmation page$")
@@ -335,6 +352,46 @@ public class StepDefinition {
 		
 	    //throw new PendingException();
 		
+	}
+
+
+
+	@And("^Enter The Valid Personal Data$")
+	public void enterTheValidPersonalData() throws Throwable {
+		
+		WebElement MSISDN_txtbox = drv.findElement(By.xpath("//input[@id='phoneField']"));
+		MSISDN_txtbox.sendKeys("015226178776");
+		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
+		Email_txtbox.sendKeys("mario-payer@gmail.com");
+		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
+		btn_submit1.click();
+		//throw new PendingException();
+	}
+
+
+
+	@And("^Choose PayPal Payment Method$")
+	public void choosePayPalPaymentMethod() throws Throwable {
+		
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='2']")));
+		mydiv.click();
+		// throw new PendingException();
+	}
+
+
+
+	@And("^login with valid PayPal account and submit the transaction$")
+	public void loginWithValidPayPalAccountAndSubmitTheTransaction() throws Throwable {
+		
+		WebDriverWait wait = new WebDriverWait(drv, 20);
+		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='password']")));
+		mydiv.sendKeys("TEST@1234");
+		drv.findElement(By.xpath("//button[@id='btnLogin']")).click();
+		WebDriverWait wait1 = new WebDriverWait(drv, 20);
+		WebElement mydiv1 = wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='Jetzt zahlen']")));
+		mydiv1.click();
+		//throw new PendingException();
 	}
 
 }
