@@ -46,41 +46,42 @@ public class StepDefinition {
 	
 	@Before
 	public void setUp() {
+		// ======================================================================
 		/*Proxy proxy = new Proxy();
 		proxy.setHttpProxy("139.7.95.172:8080");
 		ChromeOptions options = new ChromeOptions();
 		DesiredCapabilities dc = new DesiredCapabilities();
 		options.setCapability("proxy", proxy);*/
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-application-cache");
+		//==============================================================
 		String driverPath = "C:\\drive\\";
 		System.setProperty("webdriver.chrome.driver", driverPath
 				+ "chromedriver.exe");
 		drv = new ChromeDriver();	
-		//drv = webdriver.Chrome(chrome_options=chrome_options);
 	}
 	
 	
 	
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
-		// to go to the ST cookie switcher
-		//drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
-		// to go to SIT cookie switcher
-		//========================================================================
+		
 		drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
+		drv.manage().window().maximize();
 		drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
-		//========================================================================
-//		drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
-	
-		drv.manage().window().maximize();		
-//		JavascriptExecutor js = (JavascriptExecutor) drv;
-//		WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
-//		js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
-//		Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
-//		ss.selectByValue("feature-set-payment-provider");
-		//WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
-		//development.click();		
+		// ========================================================================
+		 /*
+		 //to go to the ST cookie switcher
+		 drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		 //to go to SIT cookie switcher
+		 drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		 drv.manage().window().maximize();		
+		 JavascriptExecutor js = (JavascriptExecutor) drv;
+		 WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
+		 js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
+		 Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
+		 ss.selectByValue("feature-set-payment-provider");
+		 WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
+		 development.click();*/
+		// =======================================================================
 	}
 
 	@When("^I choose to top-up my/other person balance online$")
@@ -90,7 +91,6 @@ public class StepDefinition {
 		// drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
 		
 		// to go to topamount page in SIT
-		
 		drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
 		
 		//throw new PendingException();
@@ -112,7 +112,7 @@ public class StepDefinition {
 	public void choose_Large_amount_to_Top_up() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement dim = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
+		WebElement dim = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
 		for(int i=0; i<100; i++)
 		{
 			dim.click();
@@ -163,10 +163,8 @@ public class StepDefinition {
 		crdt_CVC.sendKeys("1234");
 		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
 		crdt_name.sendKeys("MARIO");
-		JavascriptExecutor js = (JavascriptExecutor) drv;
-		js.executeScript("alert('Waiting @AliAbdallah to finish Review step');");
-		 
-		//credit_radiobtn.click();
+		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
+		checkout_btn.click();
 		//throw new PendingException();
 	}
 
@@ -193,10 +191,10 @@ public class StepDefinition {
 	@Then("^Choose VARIOUS amount to Top-up$")
 	public void chooseVARIOUSAmountToTopUp() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
-		WebElement card1 = drv.findElement(By.xpath("//div[@id='topup1']"));
-		WebElement card2 = drv.findElement(By.xpath("//div[@id='topup2']"));
-		WebElement card3 = drv.findElement(By.xpath("//div[@id='topup3']"));
+		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
+		WebElement card1 = drv.findElement(By.xpath("//a[@id='topup1']"));
+		WebElement card2 = drv.findElement(By.xpath("//a[@id='topup2']"));
+		WebElement card3 = drv.findElement(By.xpath("//a[@id='topup3']"));
 		//WebElement total = drv.findElement(By.xpath("//div[@class='total-price']/following::div[@class='value']"));
 		for(int i=0; i<100; i++)
 		{
@@ -223,10 +221,10 @@ public class StepDefinition {
 	@Then("^addAndRemove amounts to Top-up$")
 	public void addandremoveAmountsToTopUp() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='topup0']")));
-		WebElement card1 = drv.findElement(By.xpath("//div[@id='topup1']"));
-		WebElement card2 = drv.findElement(By.xpath("//div[@id='topup2']"));
-		WebElement card3 = drv.findElement(By.xpath("//div[@id='topup3']"));
+		WebElement card0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
+		WebElement card1 = drv.findElement(By.xpath("//a[@id='topup1']"));
+		WebElement card2 = drv.findElement(By.xpath("//a[@id='topup2']"));
+		WebElement card3 = drv.findElement(By.xpath("//a[@id='topup3']"));
 		WebElement decrement0 = drv.findElement(By.xpath("//a[@id='decrement0']"));
 		WebElement decrement1 = drv.findElement(By.xpath("//a[@id='decrement1']"));
 		WebElement decrement2 = drv.findElement(By.xpath("//a[@id='decrement2']"));
