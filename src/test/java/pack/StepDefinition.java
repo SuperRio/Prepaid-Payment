@@ -171,20 +171,21 @@ public class StepDefinition {
 	@And("^complete Review step$")
 	public void complete_Review_step() throws Throwable {
 		// user review data and click on submit
+
 		Thread.sleep(2000);
-		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
-		checkout_btn.click();
-		Thread.sleep(2000);
-		WebElement checkout_btn1 = drv.findElement(By.xpath("//button[@class='btn btn-sml']"));
+		WebElement checkout_btn1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
 		checkout_btn1.click();
+		Thread.sleep(2000);
+		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-sml']"));
+		checkout_btn.click();
 		// throw new PendingException();
 	}
 
 	@Then("^I shall view  Confirmation page$")
 	public void i_shall_view_Confirmation_page() throws Throwable {
-		// Write code here that turns the phrase above into concrete actions
+		// End of transaction
 		System.out.println(" End of text :D ");
-		throw new PendingException();
+		//throw new PendingException();
 	}
 
 
@@ -298,20 +299,11 @@ public class StepDefinition {
 		loginbtn.click();
 	    //throw new PendingException();
 	}
+
 	
-	@Then("^Check user's MSISDNs$")
-	public void check_user_s_MSISDNs() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement radio_0 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='subscriptions0']")));
-		radio_0.click();
-		
-		
-		//throw new PendingException();
-	}
 	@Then("^Check user's MSISDNs for different error messages$")
 	public void check_user_s_MSISDNs_for_different_error_messages() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
+	    // Check back end error messages
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement btnCloseMsisdn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@type='button']")));
 		btnCloseMsisdn.click();
@@ -357,9 +349,9 @@ public class StepDefinition {
 
 	@And("^Enter The Valid Personal Data$")
 	public void enterTheValidPersonalData() throws Throwable {
-		
+		// Valid data for SIT environment
 		WebElement MSISDN_txtbox = drv.findElement(By.xpath("//input[@id='phoneField']"));
-		MSISDN_txtbox.sendKeys("015226178776");
+		MSISDN_txtbox.sendKeys("015226175239");
 		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
 		Email_txtbox.sendKeys("mario-payer@gmail.com");
 		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
@@ -371,7 +363,7 @@ public class StepDefinition {
 
 	@And("^Choose PayPal Payment Method$")
 	public void choosePayPalPaymentMethod() throws Throwable {
-		
+		// valid data for SIT environment
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='2']")));
 		mydiv.click();
@@ -382,7 +374,7 @@ public class StepDefinition {
 
 	@And("^login with valid PayPal account and submit the transaction$")
 	public void loginWithValidPayPalAccountAndSubmitTheTransaction() throws Throwable {
-		
+		// valid data for SIT environment
 		WebDriverWait wait = new WebDriverWait(drv, 20);
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='password']")));
 		mydiv.sendKeys("TEST@1234");
