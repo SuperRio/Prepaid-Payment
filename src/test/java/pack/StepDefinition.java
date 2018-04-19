@@ -132,7 +132,10 @@ public class StepDefinition {
 	@And("^Choose to continue as a guest$")
 	public void choose_to_continue_as_a_guest() throws Throwable {
 		// user click on continue as a guest button
-		drv.findElement(By.id("guestButtonId")).click();
+		Thread.sleep(2000);
+		WebDriverWait wait = new WebDriverWait(drv, 10);
+		WebElement guestBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='guestButtonId']")));
+		guestBtn.click();
 		//throw new PendingException();
 	}
 
@@ -358,6 +361,7 @@ public class StepDefinition {
 		MSISDN_txtbox.sendKeys("015226175239");
 		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
 		Email_txtbox.sendKeys("mario-payer@gmail.com");
+		Thread.sleep(2000);
 		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
 		btn_submit1.click();
 		//throw new PendingException();
@@ -368,8 +372,9 @@ public class StepDefinition {
 	@And("^Choose PayPal Payment Method$")
 	public void choosePayPalPaymentMethod() throws Throwable {
 		// valid data for SIT environment
+		Thread.sleep(2000);
 		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='2']")));
+		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='1']")));
 		mydiv.click();
 		// throw new PendingException();
 	}
