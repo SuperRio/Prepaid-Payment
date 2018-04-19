@@ -47,11 +47,11 @@ public class StepDefinition {
 	@Before
 	public void setUp() {
 		// ======================================================================
-		/*Proxy proxy = new Proxy();
+		Proxy proxy = new Proxy();
 		proxy.setHttpProxy("139.7.95.172:8080");
 		ChromeOptions options = new ChromeOptions();
 		DesiredCapabilities dc = new DesiredCapabilities();
-		options.setCapability("proxy", proxy);*/
+		options.setCapability("proxy", proxy);
 		//==============================================================
 		String driverPath = "C:\\drive\\";
 		System.setProperty("webdriver.chrome.driver", driverPath
@@ -64,15 +64,16 @@ public class StepDefinition {
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		
-		drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
-		drv.manage().window().maximize();
-		drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
+		//drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
+		//drv.manage().window().maximize();
+		//drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
 		// ========================================================================
-		 /*
+		 
 		 //to go to the ST cookie switcher
 		 drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		 drv.manage().window().maximize();
 		 //to go to SIT cookie switcher
-		 drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		 //drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
 		 drv.manage().window().maximize();		
 		 JavascriptExecutor js = (JavascriptExecutor) drv;
 		 WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
@@ -80,7 +81,7 @@ public class StepDefinition {
 		 Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
 		 ss.selectByValue("feature-set-payment-provider");
 		 WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
-		 development.click();*/
+		 development.click();
 		// =======================================================================
 	}
 
@@ -88,10 +89,10 @@ public class StepDefinition {
 	public void i_choose_to_top_up_my_other_person_balance_online_vodafone_de()
 			throws Throwable {
 		// to go to topamount page in ST
-		// drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
+		 drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
 		
 		// to go to topamount page in SIT
-		drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
+		//drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
 		
 		//throw new PendingException();
 	}
@@ -287,10 +288,10 @@ public class StepDefinition {
 	@And("^login with user has from (\\d+) to (\\d+) MSISDNs$")
 	public void login_with_user_has_from_to_MSISDNs(int arg1, int arg2) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
-		
-		WebElement lgnbtn = drv.findElement(By.id("LoginButtonId"));
-		lgnbtn.click();
 		WebDriverWait wait = new WebDriverWait(drv, 10);
+
+		WebElement lgnbtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='LoginButtonId']")));
+		lgnbtn.click();
 		WebElement usernameBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='txtUsername']")));
 		WebElement passwordBtn = drv.findElement(By.xpath("//input[@id='txtPassword']"));
 		usernameBtn.sendKeys("PD.paul-8-with-default-out");
@@ -304,10 +305,13 @@ public class StepDefinition {
 	@Then("^Check user's MSISDNs for different error messages$")
 	public void check_user_s_MSISDNs_for_different_error_messages() throws Throwable {
 	    // Check back end error messages
-		WebDriverWait wait = new WebDriverWait(drv, 10);
-		WebElement btnCloseMsisdn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@type='button']")));
-		btnCloseMsisdn.click();
 		JavascriptExecutor jse = (JavascriptExecutor)drv;
+		//jse.executeScript("window.scrollBy(0,250)", "");
+		WebDriverWait wait = new WebDriverWait(drv, 20);
+		WebElement btnCloseMsisdn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='toggleBtn']")));
+		jse.executeScript("arguments[0].scrollIntoView(true);",btnCloseMsisdn);
+		Thread.sleep(2000);
+		btnCloseMsisdn.click();
 		jse.executeScript("window.scrollBy(0,-250)", "");
 		WebElement radio0 = drv.findElement(By.xpath("//label[@for='subscriptions0']"));
 		radio0.click();
