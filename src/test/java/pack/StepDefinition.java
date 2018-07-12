@@ -1,20 +1,19 @@
 package pack;
 
 import net.masterthought.cucumber.json.Element;
-
 import org.apache.velocity.runtime.directive.Break;
 import org.openqa.selenium.Proxy;
-
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.List;
-
 import junit.framework.Assert;
-
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +30,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;		
-
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -42,21 +42,27 @@ import cucumber.api.java.en.When;
 
 public class StepDefinition {
 
-	WebDriver drv = null;
+	//WebDriver drv = null;
+	ChromeDriver drv = null;
+
 	
 	@Before
 	public void setUp() {
 		// ======================================================================
-		Proxy proxy = new Proxy();
+		/*Proxy proxy = new Proxy();
 		proxy.setHttpProxy("139.7.95.172:8080");
 		ChromeOptions options = new ChromeOptions();
 		DesiredCapabilities dc = new DesiredCapabilities();
-		options.setCapability("proxy", proxy);
+		options.setCapability("proxy", proxy);*/
 		//==============================================================
 		String driverPath = "C:\\drive\\";
 		System.setProperty("webdriver.chrome.driver", driverPath
 				+ "chromedriver.exe");
-		drv = new ChromeDriver();	
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+		options.addArguments("--window-size=1920,1080");
+		drv = new ChromeDriver(options);
+		//drv = new ChromeDriver();
 	}
 	
 	
@@ -64,24 +70,30 @@ public class StepDefinition {
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		
-		//drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
-		//drv.manage().window().maximize();
-		//drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
+		drv.get("https://zuhauseplus.vodafone.de/kombi-pakete/");
+		drv.manage().window().maximize();
+		drv.manage().addCookie(new Cookie("simplicity-draft","feature-set-payment-provider",".vodafone.de","/",null));
 		// ========================================================================
 		 
 		 //to go to the ST cookie switcher
-		 drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
-		 drv.manage().window().maximize();
-		 //to go to SIT cookie switcher
-		 //drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
-		 drv.manage().window().maximize();		
-		 JavascriptExecutor js = (JavascriptExecutor) drv;
+		// drv.get("https://simplicity.wf-de.vodafone.com/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		//drv.manage().window().maximize();
+		 // to go to SIT cookie switcher
+		// drv.get("https://www.vodafone.de/simplicity/pages/helpers/subpages/cookie-switcher.html");
+		/* Robot robot = new Robot();
+		 drv.switchTo().alert().sendKeys("vorschau");
+		 Thread.sleep(1000);
+		 robot.keyPress(KeyEvent.VK_TAB);
+		 drv.switchTo().alert().sendKeys("vorschau");
+		 robot.keyPress(KeyEvent.VK_ENTER);*/
+				
+		/* JavascriptExecutor js = (JavascriptExecutor) drv;
 		 WebElement element = drv.findElement(By.xpath("//select[@id='dropDownSwitcher']"));
 		 js.executeScript("arguments[0].setAttribute('style', 'display: true;')",element);
 		 Select ss = new Select(drv.findElement(By.xpath("//select[@id='dropDownSwitcher']")));
 		 ss.selectByValue("feature-set-payment-provider");
-		 WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));
-		 development.click();
+		// WebElement development = drv.findElement(By.xpath("//a[@data-mode='dev']"));*/
+		 //development.click();
 		// =======================================================================
 	}
 
@@ -89,10 +101,10 @@ public class StepDefinition {
 	public void i_choose_to_top_up_my_other_person_balance_online_vodafone_de()
 			throws Throwable {
 		// to go to topamount page in ST
-		 drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
+		// drv.get("https://simplicity.wf-de.vodafone.com/meinvodafone/account/payment");
 		
 		// to go to topamount page in SIT
-		//drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
+		drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
 		
 		//throw new PendingException();
 	}
@@ -143,7 +155,7 @@ public class StepDefinition {
 	public void enter_The_Personal_Data() throws Throwable {
 		// user enters receiver MSISDN and his E-mail
 		WebElement MSISDN_txtbox = drv.findElement(By.xpath("//input[@id='phoneField']"));
-		MSISDN_txtbox.sendKeys("66666666");
+		MSISDN_txtbox.sendKeys("015226178045");
 		WebElement Email_txtbox = drv.findElement(By.xpath("//input[@id='emailField']"));
 		Email_txtbox.sendKeys("mario.nady07@gmail.com");
 		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
@@ -154,17 +166,18 @@ public class StepDefinition {
 	@And("^Choose Payment Method credit card$")
 	public void choose_Payment_Method_credit_card() throws Throwable {
 		// user choose credit card payment method
+		Thread.sleep(3000);
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='0']")));
 		mydiv.click();
 		WebElement crdt_no = drv.findElement(By.id("cardNumber"));
-		crdt_no.sendKeys("1234567812345678");
+		crdt_no.sendKeys("4988438843884305");
 		Select ss = new Select(drv.findElement(By.xpath("//select[@id='month-chooser']")));
 		ss.selectByValue("4");
 		Select sss = new Select(drv.findElement(By.xpath("//select[@id='years-chooser']")));
 		sss.selectByValue("2024");
 		WebElement crdt_CVC = drv.findElement(By.xpath("//input[@id='cvc']"));
-		crdt_CVC.sendKeys("1234");
+		crdt_CVC.sendKeys("737");
 		WebElement crdt_name = drv.findElement(By.xpath("//input[@id='name']"));
 		crdt_name.sendKeys("MARIO");
 		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
@@ -176,12 +189,12 @@ public class StepDefinition {
 	public void complete_Review_step() throws Throwable {
 		// user review data and click on submit
 
-		Thread.sleep(2000);
-		WebElement checkout_btn1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
-		checkout_btn1.click();
-		Thread.sleep(2000);
-		WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-sml']"));
-		checkout_btn.click();
+		//Thread.sleep(2000);
+		//WebElement checkout_btn1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
+		//checkout_btn1.click();
+		//Thread.sleep(2000);
+		//WebElement checkout_btn = drv.findElement(By.xpath("//button[@class='btn btn-sml']"));
+		//checkout_btn.click();
 		// throw new PendingException();
 	}
 
