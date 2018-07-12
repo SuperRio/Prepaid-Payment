@@ -55,9 +55,9 @@ public class StepDefinition {
 		DesiredCapabilities dc = new DesiredCapabilities();
 		options.setCapability("proxy", proxy);*/
 		//==============================================================
-		String driverPath = "C:\\drive\\";
-		System.setProperty("webdriver.chrome.driver", driverPath
-				+ "chromedriver.exe");
+		String path = System.getProperty("user.dir");
+		System.setProperty("webdriver.chrome.driver", path
+				+ "\\resources\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless");
 		options.addArguments("--window-size=1920,1080");
