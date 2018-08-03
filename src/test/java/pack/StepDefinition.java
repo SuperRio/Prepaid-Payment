@@ -65,8 +65,6 @@ public class StepDefinition {
 		//drv = new ChromeDriver();
 	}
 	
-	
-	
 	@Given("^that I am CallYa Guest user$")
 	public void that_I_am_CallYa_Guest_user() throws InterruptedException, AWTException{
 		
@@ -105,25 +103,20 @@ public class StepDefinition {
 		
 		// to go to topamount page in SIT
 		drv.get("https://www.vodafone.de/meinvodafone/account/payment/amount");
-		
-		//throw new PendingException();
-	}
+		}
 
 	@Then("^Choose Top-up Amount$")
 	public void choose_Top_up_Amount() throws Throwable {
-		// locate all elements on top-up page and choose amount
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement mydiv = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
 		mydiv.click();		
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		System.out.println("Test Case 1 Passed");
-		//throw new PendingException();
 	}
 	
 	
 	@Then("^Choose Large amount to Top-up$")
 	public void choose_Large_amount_to_Top_up() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement dim = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='topup0']")));
 		for(int i=0; i<100; i++)
@@ -138,7 +131,6 @@ public class StepDefinition {
 		}
 		drv.findElement(By.xpath("//*[@id='btn-zur-kasse']")).click();
 		System.out.println("Test Case 2 Passed");
-		//throw new PendingException();
 	}
 
 	@And("^Choose to continue as a guest$")
@@ -148,7 +140,6 @@ public class StepDefinition {
 		WebDriverWait wait = new WebDriverWait(drv, 10);
 		WebElement guestBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='guestButtonId']")));
 		guestBtn.click();
-		//throw new PendingException();
 	}
 
 	@And("^Enter The Personal Data$")
@@ -160,7 +151,6 @@ public class StepDefinition {
 		Email_txtbox.sendKeys("mario.nady07@gmail.com");
 		WebElement btn_submit1 = drv.findElement(By.xpath("//button[@class='btn btn-em btn-sml']"));
 		btn_submit1.click();
-		//throw new PendingException();
 	}
 
 	@And("^Choose Payment Method credit card$")
